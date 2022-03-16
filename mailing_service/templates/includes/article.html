@@ -1,0 +1,15 @@
+<ul>
+  <li>
+    ID: {{ obj.pk }}
+  </li>
+  <li>
+    Время начала отправки: {{ obj.start_date|date:"r" }}
+  </li>
+  <li>
+    Время завершения отправки: {{ obj.finish_date|date:"r" }}
+  </li>
+</ul>
+<h5>Текст</h5>
+<p>
+  {{ obj.text }}
+</p>
