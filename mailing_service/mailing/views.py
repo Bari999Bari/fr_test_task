@@ -1,7 +1,11 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import Mailing
+from .forms import MailingForm
+from .models import Mailing, Consumer
+from .serializers import ConsumerListSerializer, ConsumerCreateSerializer
 
 
 def index(request):
@@ -16,20 +20,37 @@ def index(request):
     return render(request, template, context)
 
 
-def post_create(request):
+def mailing_create(request):
     # Проверяем, получен POST-запрос или какой-то другой:
-    # if request.method == 'POST':
-    #     form = PostForm(request.POST)
-    #     if form.is_valid():
-    #         post = form.save(commit=False)
-    #         post.author = request.user
-    #         post.published_date = timezone.now()
-    #         post.save()
-    #         return redirect('posts:profile', username=request.user.username)
-    #     return render(request, 'posts/create_post.html', {'form': form})
-    # form = PostForm()
-    # context = {
-    #     'form': form
-    # }
-    # return render(request, 'posts/create_post.html', context)
-    pass
+    if request.method == 'POST':
+        form = MailingForm(request.POST)
+        if form.is_valid():
+            mailing = form.save(commit=False)
+            mailing.save()
+            return redirect('mailing:index')
+        return render(request, 'mailing/create_mailing.html', {'form': form})
+    form = MailingForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'mailing/create_mailing.html', context)
+
+
+# DRF
+class ConsumerListView(APIView):
+    """Displaying a list of consumers."""
+
+    def get(self, request):
+        consumers = Consumer.objects.all()
+        serializer = ConsumerListSerializer(consumers, many=True)
+        return Response(serializer.data)
+
+
+class ConsumerCreateView(APIView):
+    """Create consumer."""
+
+    def post(self, request):
+        consumer = ConsumerCreateSerializer(data=request.data)
+        if consumer.is_valid():
+            consumer.save()
+        return Response(status=201)

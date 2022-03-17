@@ -4,14 +4,16 @@ from taggit.managers import TaggableManager
 
 class Mailing(models.Model):
     text = models.TextField(verbose_name='Сообщение')
-
     start_date = models.DateTimeField(auto_now_add=False,
                                       verbose_name='Время старта')
     finish_date = models.DateTimeField(auto_now_add=False,
                                        verbose_name='Время завершения')
 
+    class Meta:
+        ordering = ['-id']
 
-class Customer(models.Model):
+
+class Consumer(models.Model):
     phone_number = models.CharField(max_length=20)
     provider_code = models.CharField(max_length=20)
     tags = TaggableManager()
@@ -28,7 +30,7 @@ class Message(models.Model):
                                 null=True,
                                 related_name='messages',
                                 verbose_name='Рассылка')
-    customer = models.ForeignKey(Customer,
+    consumer = models.ForeignKey(Consumer,
                                  on_delete=models.CASCADE,
                                  related_name='messages',
                                  verbose_name='Пользователь')

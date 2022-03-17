@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     # Other apps
     'taggit',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
