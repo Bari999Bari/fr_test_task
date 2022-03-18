@@ -38,4 +38,4 @@ MIT
 Rafael Aslanyan
 
 ## Link
-https://github.com/Bari999Bari/fr_test_task.git
+https://github.com/Bari999Bari/fr_test_task
