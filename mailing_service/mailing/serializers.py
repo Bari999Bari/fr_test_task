@@ -1,19 +1,17 @@
 from rest_framework import serializers
 
-from .models import Consumer
+from .models import Consumer, Mailing
 
 
-class ConsumerListSerializer(serializers.ModelSerializer):
-    """List of consumers."""
-
+class ConsumerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consumer
         fields = '__all__'
 
 
-class ConsumerCreateSerializer(serializers.ModelSerializer):
-    """Create consumer."""
-
+class MailingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Consumer
+        model = Mailing
         fields = '__all__'
+
+
